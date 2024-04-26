@@ -37,12 +37,7 @@ class FormationsController extends AbstractController {
      * @return Response
      */
     public function index(): Response{
-        $formations = $this->formationRepository->findAll();
-        $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/formations.html.twig", [
-            'formations' => $formations,
-            'categories' => $categories
-        ]);
+        return $this->renderPage();
     }
 
     /**
@@ -53,13 +48,26 @@ class FormationsController extends AbstractController {
      * @return Response
      */
     public function sort($champ, $ordre, $table=""): Response{
-        $formations = $this->formationRepository->findAllOrderBy($champ, $ordre, $table);
-        $categories = $this->categorieRepository->findAll();
+        return $this->renderPage($champ, $ordre, $table);
+    }
+    
+    private function renderPage($champ = null, $ordre = null, $table = null): Response {
+        $formationRepository = $this->formationRepository;
+        $categorieRepository = $this->categorieRepository;
+
+        if ($champ) {
+            $formations = $formationRepository->findAllOrderBy($champ, $ordre, $table);
+        } else {
+            $formations = $formationRepository->findAll();
+        }
+
+        $categories = $categorieRepository->findAll();
+
         return $this->render("pages/formations.html.twig", [
             'formations' => $formations,
             'categories' => $categories
         ]);
-    }     
+    }
     
     /**
      * @Route("/formations/recherche/{champ}/{table}", name="formations.findallcontain")

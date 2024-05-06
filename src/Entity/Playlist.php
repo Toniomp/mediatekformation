@@ -34,11 +34,16 @@ class Playlist
      */
     private $formations;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $size;
+
     public function __construct()
     {
         $this->formations = new ArrayCollection();
     }
-
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -75,7 +80,7 @@ class Playlist
     {
         return $this->formations;
     }
-
+    
     public function addFormation(Formation $formation): self
     {
         if (!$this->formations->contains($formation)) {
@@ -112,5 +117,22 @@ class Playlist
             }
             return $categories;
 	}
+
+    public function getSize(): ?int
+    {
+        return $this->size;
+    }
+
+    public function setSize(?int $size): self
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+    
+    public function updateSize(): void 
+    {
+        $this->size = $this->formations->count();
+    }
 	
 }

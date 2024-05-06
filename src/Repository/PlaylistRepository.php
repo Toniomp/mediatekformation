@@ -52,7 +52,34 @@ class PlaylistRepository extends ServiceEntityRepository
                 ->orderBy('p.name', $ordre)
                 ->getQuery()
                 ->getResult();       
-    } 
+    }
+    
+        /**
+     * Retourne toutes les playlists triées sur la taille de la playlist
+     * @param type $champ
+     * @param type $ordre
+     * @return Playlist[]
+     */
+            
+public function findAllOrderBySize($ordre): array
+{
+    $results = $this->createQueryBuilder('p')
+        ->select('p, COUNT(f) as formations_count')
+        ->leftJoin('p.formations', 'f')
+        ->groupBy('p.id')
+        ->orderBy('formations_count', $ordre)
+        ->getQuery()
+        ->getResult();
+    $sortedResults = [];
+    foreach ($results as $result) {
+        $playlist = $result[0];
+        $playlist->updateSize();
+        $sortedResults[] = $playlist;
+    }
+
+    return $sortedResults;
+}
+
 	
     /**
      * Enregistrements dont un champ contient une valeur

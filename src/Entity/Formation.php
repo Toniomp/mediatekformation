@@ -7,6 +7,8 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=FormationRepository::class)
@@ -164,5 +166,44 @@ class Formation
         $this->categories->removeElement($category);
 
         return $this;
+    }
+    /**
+     * @Assert\Callback
+     * @param ExecutionContextInterface $context
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+        $today = new \DateTime('today');
+        $datepubli = $this->getPublishedAtString();
+        $title = $this->getTitle();
+        $videoId = $this->getVideoId();
+        if ($datepubli == "")
+        {
+            $context->buildViolation("ce champ doit être rempli")
+                ->atPath('publishedAt')
+                ->addViolation();
+        }
+        else
+        {
+            if ($datepubli > $today)
+            {
+                $context->buildViolation("cette date ne peut pas être postérieur à aujourd'hui")
+                ->atPath('publishedAt')
+                ->addViolation();
+            }
+        }
+        if ($title == "")
+        {
+            $context->buildViolation("ce champ doit être rempli")
+                ->atPath('title')
+                ->addViolation();
+        }
+        if ($videoId == "")
+        {
+            $context->buildViolation("ce champ doit être rempli")
+                ->atPath('videoId')
+                ->addViolation();
+        }
+
     }
 }

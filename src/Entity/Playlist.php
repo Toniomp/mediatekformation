@@ -134,5 +134,5 @@ class Playlist
     {
         $this->size = $this->formations->count();
     }
-	
+
 }

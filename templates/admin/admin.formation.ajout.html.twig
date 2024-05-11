@@ -1,0 +1,40 @@
+{% extends "baseadmin.html.twig" %}
+
+{% block body %}
+    <h3 style="text-align: center;">
+        Ajouter une formation
+    </h3>
+    {{ form_start(formFormation) }}
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col-auto">
+                    {{ form_row(formFormation.publishedAt) }}
+                </div>    
+                <div class="col">
+                    {{ form_row(formFormation.title) }}
+                </div>
+            </div>    
+            <div class="row">
+                <div class="col">
+                    {{ form_row(formFormation.videoId) }}
+                </div>     
+                <div class="col">
+                    {{ form_row(formFormation.playlist) }}
+                </div>
+            </div>
+            <div class="row">
+               {{ form_row(formFormation.categories) }}
+            </div>
+        </div>
+        <div class="col">
+            
+        </div>
+    </div>
+    <div class="row">
+        {{ form_row(formFormation.description) }}
+    </div> 
+    
+    {{ form_end(formFormation) }}
+            
+{% endblock %}

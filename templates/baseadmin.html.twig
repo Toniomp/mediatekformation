@@ -3,9 +3,19 @@
 {% block title %}{% endblock %}
 {% block stylesheets %}{% endblock %}
 {% block top %}
-    <div class="container">
-        <div>
-            <h1>Gestion des formations</h1>
+    <div class="col" style="margin-bottom: 50px;">
+        <div class="container" style="text-align: center;">
+            <div>
+                <h1>Espace Administrateur</h1>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 50px;">
+            <li class="nav-item" style="text-align: center;width: 50%">
+                <a href="{{ path('admin.playlists') }}">Playlists</a>
+            </li>
+            <li class="nav-item" style="text-align: center;width: 50%">
+                <a href="{{ path('admin.formations') }}">Formations</a>
+            </li>
         </div>
     </div>
 {% endblock %}

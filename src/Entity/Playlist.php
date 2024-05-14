@@ -6,6 +6,8 @@ use App\Repository\PlaylistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PlaylistRepository::class)
@@ -133,6 +135,22 @@ class Playlist
     public function updateSize(): void 
     {
         $this->size = $this->formations->count();
+    }
+    
+    /**
+     * @Assert\Callback
+     * @param ExecutionContextInterface $context
+     */
+    
+    public function validate(ExecutionContextInterface $context)
+    {
+        $name = $this->getName();
+        if ($name == "")
+        {
+            $context->buildViolation("ce champ doit être rempli")
+                ->atPath('name')
+                ->addViolation();
+        }
     }
 
 }

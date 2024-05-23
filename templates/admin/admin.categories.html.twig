@@ -1,0 +1,38 @@
+{% extends "baseadmin.html.twig" %}
+
+{% block body %}
+    <div class="container" style="text-align: center;margin-bottom: 40px;">
+            <h2>Gestion Catégories</h2>
+    </div>
+    <div style="display: flex;column-gap: 10%">
+        <div class="col" style="width: 40%">
+            <table class="table table-striped">
+                {% for k in 0..categories|length-1 %}
+                    <tr class="align-middle">
+                        <td>
+                            <h5 class="text-info">
+                                {{ categories[k].name }}
+                            </h5>
+                        </td>
+                        <td style="text-align: right">
+                            <a href="{{ path('admin.categorie.delete', {id:categories[k].id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer la categorie {{ categories[k].name }} ? (Attention, une catégorie ne peut être supprimée que si elle n\'est rattachée à aucune formation)')">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col" style="width: 40%">
+            <h4 style="text-align: center; padding-bottom: 30px">
+                Ajouter une Catégorie
+            </h4>
+            <p class="mt-3">
+                (La nouvelle catégorie ne doit pas avoir le même nom qu'une catégorie existante)
+            </p>
+            {{ form_start(formcategorie) }}
+            <div class="row">
+                {{ form_row(formcategorie.name) }}
+            </div>
+            {{ form_end(formcategorie) }}
+        </div>
+    </div>
+{% endblock %}

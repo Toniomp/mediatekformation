@@ -6,6 +6,8 @@ use App\Repository\CategorieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CategorieRepository::class)
@@ -28,9 +30,16 @@ class Categorie
      * @ORM\ManyToMany(targetEntity=Formation::class, mappedBy="categories")
      */
     private $formations;
+    
+    /**
+     * 
+     * @var CategorieRepository
+     */
+    private $categorieRepository;
 
-    public function __construct()
+    public function __construct(CategorieRepository $categorieRepository = null)
     {
+        $this->categorieRepository = $categorieRepository;
         $this->formations = new ArrayCollection();
     }
 
@@ -76,5 +85,20 @@ class Categorie
         }
 
         return $this;
+    }
+    
+    /**
+     * @Assert\Callback
+     * @param ExecutionContextInterface $context
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+        $name = $this->getName();
+        if ($name == "")
+        {
+            $context->buildViolation("ce champ doit être rempli")
+                ->atPath('name')
+                ->addViolation();
+        }
     }
 }

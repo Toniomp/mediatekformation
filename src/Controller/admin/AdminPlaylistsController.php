@@ -2,6 +2,8 @@
 
 namespace App\Controller\admin;
 
+use App\Entity\Playlist;
+use App\Form\PlaylistType;
 use App\Repository\CategorieRepository;
 use App\Repository\FormationRepository;
 use App\Repository\PlaylistRepository;
@@ -9,8 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Form\PlaylistType;
-use App\Entity\Playlist;
 
 
 class AdminPlaylistsController extends AbstractController {
@@ -122,7 +122,7 @@ class AdminPlaylistsController extends AbstractController {
     public function delete(Playlist $playlist): Response {
         $playlist->updateSize();
         if ($playlist->getSize() === 0) {
-            $this->playlistRepository->remove($playlist, true);
+            $this->playlistRepository->removeP($playlist, true);
             return $this->redirectToRoute('admin.playlists');
         }
         else {

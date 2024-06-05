@@ -30,7 +30,7 @@ class PlaylistRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Playlist $entity, bool $flush = false): void
+    public function removeP(Playlist $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -114,8 +114,12 @@ public function findAllOrderBySize($ordre): array
                     ->getResult();              
             
         }           
-    }    
-
+    }
+    
+    public function findOneByName(string $name): ?Playlist
+    {
+        return $this->findOneBy(['name' => $name]);
+    }
 
     
 }

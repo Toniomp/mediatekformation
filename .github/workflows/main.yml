@@ -12,5 +12,5 @@ jobs:
       with:
         server: node202-eu.n0c.com
         server-dir: /public_html/mediatekformation/
-        username: antdelh@mediatek86formation.go.yj.fr
+        username: dprbhzvx
         password: ${{ secrets.ftp_password }}
